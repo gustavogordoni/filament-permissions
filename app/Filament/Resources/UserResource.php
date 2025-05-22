@@ -12,29 +12,35 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Nome Completo')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('Email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
+                    ->label('Senha')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn ($context) : bool => $context === 'create'),
             ]);
     }
 
@@ -43,18 +49,23 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nome')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                    ->label('Email verificado em')
+                    ->dateTime('d/m/Y H:i:s')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Cadastrado em')
+                    ->dateTime('d/m/Y H:i:s')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Atualizado em')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

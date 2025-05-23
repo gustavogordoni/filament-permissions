@@ -19,6 +19,13 @@ class PermissionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $modelLabel = 'Permissão';
+    protected static ?string $pluralModelLabel = 'Permissões';
+
+    protected static ?string $slug = 'permissao';
+
+    protected static ?string $navigationGroup = 'Configurações';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -26,6 +33,7 @@ class PermissionResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Nome')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->label('Funções')

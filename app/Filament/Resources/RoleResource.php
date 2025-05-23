@@ -19,6 +19,13 @@ class RoleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $modelLabel = 'Função';
+    protected static ?string $pluralModelLabel = 'Funções';
+
+    protected static ?string $slug = 'funcao';
+
+    protected static ?string $navigationGroup = 'Configurações';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -26,6 +33,7 @@ class RoleResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Nome')
                     ->required()
+                    ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\Select::make('permissions')
                     ->label('Permissões')

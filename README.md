@@ -1,25 +1,23 @@
-# Setup Docker Laravel
+# Filament - Permissions
 
-### Passo a passo
+## Sobre o Projeto
+
+Este projeto foi desenvolvido com base na playlist **[Laravel Filament com ACL](https://youtube.com/playlist?list=PL8K_dpddZrwk_tAsaYdhxlEOkhELGM1mj&si=_o-sXsWJfxRPOHG3)**, criada por **Rômulo Ramos** (**GitHub: [rmsramos](https://github.com/rmsramos)**).
+
+Meu objetivo é estudar e aprofundar no uso do **[Filament](https://filamentphp.com/)** — uma ferramenta de administração para projetos Laravel, e também entender melhor como funciona a biblioteca **[spatie/laravel-permission](https://spatie.be/docs/laravel-permission)**, que trata de permissões e controle de acesso (ACL) de forma bem prática.
+
+## Passo a passo para a Instalação
 
 ### Clone Repositório
 
 ```sh
-git clone -b laravel-12-with-php8.4 https://github.com/gustavogordoni/setup-docker-laravel.git
+git clone https://github.com/gustavogordoni/filament-permissions.git
 ```
 
-### Clone os Arquivos do Laravel
-```sh
-git clone https://github.com/laravel/laravel.git app_laravel
-```
-
-### Copie os arquivos docker-compose.yml, Dockerfile e o diretório docker/ para o seu projeto
-```sh
-cp -rf setup-docker-laravel/* app_laravel/
-```
+### Acesse o diretório
 
 ```sh
-cd app_laravel
+cd filament-permissions
 ```
 
 ### Crie o Arquivo .env
@@ -58,12 +56,11 @@ php artisan key:generate
 php artisan migrate
 ```
 
-<!-- 
 ### Rode as seeds
+
 ```sh
 php artisan db:seed 
 ```
--->
 
 ### Instale as dependências do frontend
 
@@ -77,10 +74,10 @@ npm install
 npm run build
 ```
 
+<!-- 
 > Se estiver desenvolvendo, use `npm run dev` para recompilar automaticamente ao salvar os arquivos.
+-->
 
----
+## Acesse o Projeto
 
-## Acesse o projeto
-
-Abra no navegador: [http://localhost:8000](http://localhost:8000)
+Abra no navegador: [http://localhost:7000](http://localhost:7000)

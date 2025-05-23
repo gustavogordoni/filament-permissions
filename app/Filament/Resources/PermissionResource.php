@@ -27,7 +27,8 @@ class PermissionResource extends Resource
                     ->label('Nome')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('roles')                
+                Forms\Components\Select::make('roles')
+                    ->label('Funções')
                     ->multiple()
                     ->relationship('roles', 'name')
                     ->preload()

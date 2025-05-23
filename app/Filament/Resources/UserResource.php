@@ -41,9 +41,14 @@ class UserResource extends Resource
                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                     ->dehydrated(fn($state) => filled($state))
                     ->required(fn($context): bool => $context === 'create'),
-                Forms\Components\Select::make('roles')                
+                Forms\Components\Select::make('roles')
+                    ->label('Funções')
                     ->multiple()
-                    ->relationship('roles', 'name')
+                    ->relationship(
+                        'roles',
+                        'name',
+                        fn(Builder $query) => auth()->user()->hasRole('Admin') ? null : $query->where('name', '!=', 'Admin')
+                    )
                     ->preload()
             ]);
     }
@@ -100,5 +105,15 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return auth()->user()->hasRole('Admin')
+            ? parent::getEloquentQuery()
+            : parent::getEloquentQuery()->whereHas(
+                'roles',
+                fn(Builder $query) => $query->where('name', '!=', 'Admin')
+            );
     }
 }
